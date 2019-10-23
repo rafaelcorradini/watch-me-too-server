@@ -1,0 +1,63 @@
+{
+  "name": "watch-me-too-api",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "pm2 start",
+    "reload-env": "pm2 reload --update-env ecosystem.config.js",
+    "stop": "pm2 stop ecosystem.config.js",
+    "monitor": "pm2 monit",
+    "knex": "knex --knexfile ./db/knexfile.js --debug",
+    "lint": "npx eslint .",
+    "start": "npm run knex migrate:latest && node ./bin/www"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@hapi/joi": "^16.1.4",
+    "bluebird": "^3.5.3",
+    "body-parser": "^1.19.0",
+    "cookie-parser": "^1.4.4",
+    "cors": "^2.8.5",
+    "debug": "~2.6.9",
+    "dotenv": "^6.2.0",
+    "express": "^4.15.2",
+    "helmet": "^3.19.0",
+    "knex": "^0.18.0",
+    "knex-stringcase": "^1.3.0",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0",
+    "pg": "^7.8.0",
+    "pino": "^5.11.1",
+    "pino-multi-stream": "^4.1.0",
+    "pino-pretty": "^2.5.0",
+    "pino-tee": "^0.2.2",
+    "pm2": "^3.2.9",
+    "socket.io": "^2.2.0",
+    "uuid": "^3.3.3"
+  },
+  "devDependencies": {
+    "eslint": "^5.13.0",
+    "eslint-config": "^0.3.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-plugin-import": "^2.16.0"
+  },
+  "lint-staged": {
+    "src/**/*.{js,jsx}": [
+      "eslint --fix",
+      "prettier --config .prettierrc --write",
+      "git add"
+    ],
+    "packages/**/*.{js,jsx}": [
+      "eslint --fix",
+      "prettier --config .prettierrc --write",
+      "git add"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  }
+}
