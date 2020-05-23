@@ -10,9 +10,9 @@ async function getRoom(roomId) {
   }
 }
 
-async function createRoom(roomId) {
+async function createRoom(roomId, videoUrl = null) {
   try {
-    return await knex('rooms').insert({ token: roomId }).returning('id');
+    return await knex('rooms').insert({ token: roomId, videoUrl }).returning('id');
   } catch (err) {
     throw err;
   }

@@ -7,10 +7,10 @@ const removePlaylistVideo = require('./../playlist/functions/remove-playlist-vid
 
 function mountSocket(io) {
   io.on('connection', (socket) => {
-    const { roomId, userId } = socket.handshake.query;
+    const { roomId, userId, videoId } = socket.handshake.query;
     logger.info(`a user connected to room ${roomId}`);
     socket.join([roomId, userId]);
-    init(socket, roomId, userId);
+    init(socket, roomId, userId, videoId);
 
     socket.on('command', message => command(message, socket, roomId));
     socket.on('add_playlist_video', message => addPlaylistVideo(message, socket, roomId));
