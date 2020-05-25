@@ -1,20 +1,18 @@
 const { createRoom, getRoom } = require('../repository');
 const commandTypes = require('../../../constants/commandTypes');
 
-async function init(socket, roomId, userId, videoId) {
-  let room = await getRoom(roomId);
-  if (!room) room = await createRoom(roomId, videoId);
+async function init(io, socket, roomId, userId, videoId) {
+  const room = await getRoom(roomId);
+  if (!room) await createRoom(roomId, videoId);
   else {
-    setTimeout(() => {
-      socket.to(userId).emit('command', {
-        type: commandTypes.CHANGE_VIDEO_ID,
-        videoUrl: room.videoUrl,
-      });
-      socket.to(userId).emit('command', {
-        type: room.last_command || commandTypes.PAUSE,
-        time: room.time,
-      });
-    }, 1000);
+    io.to(userId).emit('command', {
+      type: commandTypes.CHANGE_VIDEO_ID,
+      videoId: room.videoUrl,
+    });
+    io.to(userId).emit('command', {
+      type: room.last_command || commandTypes.PAUSE,
+      time: room.time,
+    });
   }
 }
 

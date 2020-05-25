@@ -10,7 +10,7 @@ function mountSocket(io) {
     const { roomId, userId, videoId } = socket.handshake.query;
     logger.info(`a user connected to room ${roomId}`);
     socket.join([roomId, userId]);
-    init(socket, roomId, userId, videoId);
+    init(io, socket, roomId, userId, videoId);
 
     socket.on('command', message => command(message, socket, roomId));
     socket.on('add_playlist_video', message => addPlaylistVideo(message, socket, roomId));
